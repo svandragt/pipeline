@@ -1,23 +1,20 @@
-<?php  
-require_once('__autoload.php');
+<?php
+require_once( '__autoload.php' );
 
-$pipeline = new App;
-$pipeline->out = [
-	'prep',
-	'myrouter'
-];	
+$pipeline = new App();
+$pipeline->connect( 'router' );
+$pipeline->connect( 'prep_data', 'router' );
 
-
-function prep(&$data) {
+function prep_data( &$data ) {
 	$data['name'] = 'Bob';
 }
 
-function myrouter(&$data) {
-	$r = new Router($data);
+function router( &$data ) {
+	$r            = new Router( $data );
 	$r->path_info = @$_SERVER['PATH_INFO'];
-	$r->routes =  ['/test' => 'hello'];
+	$r->routes    = [ '/test' => 'hello' ];
 }
 
-function hello($data) {
+function hello( $data ) {
 	echo 'hello ' . $data['name'];
 }
