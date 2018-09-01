@@ -23,7 +23,7 @@ class App {
 	 *
 	 * @return App $this
 	 */
-	public function connect( $from, $to = '' ) {
+	public function connect_to( $from, $to = '' ) {
 
 		if ( empty( $to ) ) {
 			$this->pipes[] = $from;
