@@ -1,4 +1,4 @@
-# pipelines
+# Pipeline
 
 Can web frameworks be as simple as two pipelines connected by a datastore?
 Attach functions to the ordered *in* array to process the request.
