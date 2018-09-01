@@ -1,11 +1,9 @@
 # Pipeline
 
-Can web frameworks be as simple as two pipelines connected by a datastore?
-Attach functions to the ordered *in* array to process the request.
-A datastore in the middle.
-Attach functions to the ordered *out* array to prepare the response.
+Can web frameworks be as simple as a pipeline connecting multiple pipes?
+Attach functions before and after others to process the request and prepare the response.
 
-_Request > in pipeline > datastore > out pipeline > Response_
+_Request > stuff  > datastore > stuff > Response_
 
 # Philosophy
 
