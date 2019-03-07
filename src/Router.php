@@ -1,23 +1,26 @@
 <?php
 
-class Router {
+/**
+ * Class Router
+ * A router is a Pipeline that makes a single callback on destruction.
+ */
+class Router extends Pipeline {
 	public $path_info;
-	public $routes;
-
-	private $data;
 
 	public function __construct( &$data ) {
-		$this->data = $data;
+		$this->path_info = $_SERVER['PATH_INFO'];
+		parent::__construct( $data );
 	}
 
 	public function __destruct() {
-		if ( empty( $this->routes[ $this->path_info ] ) ) {
+		// make a single callback
+		if ( empty( $this->callbacks[ $_SERVER['PATH_INFO'] ] ) ) {
 			header( "HTTP/1.0 404 Not Found" );
 			echo '404 Page not found';
 
 			return;
 		}
-
-		call_user_func_array( $this->routes[ $this->path_info ], array( &$this->data ) );
+		$cb = $this->callbacks[ $_SERVER['PATH_INFO'] ];
+		call_user_func_array( $cb, [ &$this->data ] );
 	}
 }
