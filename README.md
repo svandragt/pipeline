@@ -1,9 +1,31 @@
-# Pipeline
+# Codename Pipeline
 
-Can web frameworks be as simple as a pipeline connecting multiple pipes?
+Can a web frameworks be as simple as a stack of callbacks? 
 Attach functions before and after others to process the request and prepare the response.
 
 _Request > stuff  > datastore > stuff > Response_
+
+```php
+<?php
+require_once( '__autoload.php' );
+
+$pipeline = new Pipeline();
+$pipeline->add( 'router' );
+$pipeline->add_before( 'prep_data', 'router' );
+
+function router( &$data ) {
+	$r = new Router( $data );
+	$r->add( [ '/hello' => 'hello_view' ] );
+}
+
+function prep_data( &$data ) {
+	$data['name'] = 'Bob1';
+}
+
+function hello_view( $data ) {
+	echo 'hello ' . $data['name'];
+}
+```
 
 # Philosophy
 
@@ -13,18 +35,16 @@ The problem with the WordPress way is that code is all over the place, hooking i
 
 Let's see if a micro solution is possible.
 
-* I like object oriented programming for the supplied features (App, Router) but creating an integration will be functional.
-* Pipelines are arrays of function names which are called by the main App class.
-* We're all adults so we're  exposing public properties directly doing away with getters and setters.
+* I'd like  to object oriented programming for the supplied framework features (Pipeline, Router) but that creating an integration project will be functional programmed.
+* Pipelines are arrays of function names which are called by the main Pipeline class.
+* We're all adults so we're exposing public properties directly doing away with getters and setters.
 * Composition is all currently done  in the `__destruct()` method of classes, this means we don't have to worry about ->show() and ->run() methods.
-* The IN pipeline will have to do some messaging of the request, perhaps passing an array by reference into the datastore.
-* The OUT pipeline must do something similar with the data, handing it over from function to function until it's spit out.
 
-Figuring things out as i go.
+Figuring the rest out as i go.
 
 
 ```
 cd src
 php -S localhost:8080
-open http://localhost:8080/test # hello Bob
+open http://localhost:8080/hello # hello Bob
 ```
