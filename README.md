@@ -1,6 +1,6 @@
-# Pipeline
+# Codename Pipeline
 
-Can web frameworks be as simple as a pipeline connecting multiple pipes?
+Can a web frameworks be as simple as a stack of callbacks? 
 Attach functions before and after others to process the request and prepare the response.
 
 _Request > stuff  > datastore > stuff > Response_
