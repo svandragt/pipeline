@@ -2,7 +2,7 @@
 require_once( '__autoload.php' );
 
 $pipeline = new Pipeline();
-$pipeline->add( [ 'router' ] );
+$pipeline->add( 'router' );
 $pipeline->add_before( 'prep_data', 'router' );
 
 function prep_data( &$data ) {

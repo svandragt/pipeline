@@ -7,7 +7,7 @@
  */
 class Pipeline {
 	public $callbacks = [];
-	protected $data;
+	protected $data = [];
 
 	public function __construct( $data = [] ) {
 		if ( false === empty( $data ) ) {
@@ -16,14 +16,14 @@ class Pipeline {
 	}
 
 	public function __destruct() {
-		// Call all callbacks
+		// Make all callbacks passing in a shared $data array
 		foreach ( array_values( $this->callbacks ) as $callback ) {
 			call_user_func_array( $callback, [ &$this->data ] );
 		}
 	}
 
 	/**
-	 * Add a callback at the end of the list
+	 * Add a callback to the end of the queue
 	 *
 	 * @param $callback
 	 *
@@ -31,17 +31,18 @@ class Pipeline {
 	 */
 	public function add( $callback ) {
 		if ( false === is_array( $callback ) ) {
-			$callback = [ $callback ];
-		}
-		foreach ( $callback as $index => $function ) {
-			$this->callbacks[ $index ] = $function;
+			$this->callbacks[] = $callback;
+		} else {
+			foreach ( $callback as $id => $function ) {
+				$this->callbacks[ $id ] = $function;
+			}
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Add callback before another.
+	 * Add callback before another in the queue
 	 *
 	 * @param string|array $callback New callback, can have a key.
 	 * @param string $existing_callback Existing callback value
