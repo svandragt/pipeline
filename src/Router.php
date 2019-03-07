@@ -14,13 +14,13 @@ class Router extends Pipeline {
 
 	public function __destruct() {
 		// make a single callback
-		if ( empty( $this->callbacks[ $_SERVER['PATH_INFO'] ] ) ) {
+		if ( empty( $this->callbacks[ $this->path_info ] ) ) {
 			header( "HTTP/1.0 404 Not Found" );
 			echo '404 Page not found';
 
 			return;
 		}
-		$cb = $this->callbacks[ $_SERVER['PATH_INFO'] ];
+		$cb = $this->callbacks[ $this->path_info ];
 		call_user_func_array( $cb, [ &$this->data ] );
 
 		$this->reset_queue();
