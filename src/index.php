@@ -5,13 +5,13 @@ $pipeline = new Pipeline();
 $pipeline->add( 'router' );
 $pipeline->add_before( 'prep_data', 'router' );
 
-function prep_data( &$data ) {
-	$data['name'] = 'Bob1';
-}
-
 function router( &$data ) {
 	$r = new Router( $data );
 	$r->add( [ '/hello' => 'hello_view' ] );
+}
+
+function prep_data( &$data ) {
+	$data['name'] = 'Bob1';
 }
 
 function hello_view( $data ) {
