@@ -5,6 +5,28 @@ Attach functions before and after others to process the request and prepare the 
 
 _Request > stuff  > datastore > stuff > Response_
 
+```php
+<?php
+require_once( '__autoload.php' );
+
+$pipeline = new Pipeline();
+$pipeline->add( 'router' );
+$pipeline->add_before( 'prep_data', 'router' );
+
+function router( &$data ) {
+	$r = new Router( $data );
+	$r->add( [ '/hello' => 'hello_view' ] );
+}
+
+function prep_data( &$data ) {
+	$data['name'] = 'Bob1';
+}
+
+function hello_view( $data ) {
+	echo 'hello ' . $data['name'];
+}
+```
+
 # Philosophy
 
 The idea is to end up somewhere between ASP.NET MVC setup and WordPress action/filter/hooks but in an orderly fashion. This allows a micro framework to expose points for functionality to hook into.
