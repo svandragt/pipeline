@@ -22,5 +22,8 @@ class Router extends Pipeline {
 		}
 		$cb = $this->callbacks[ $_SERVER['PATH_INFO'] ];
 		call_user_func_array( $cb, [ &$this->data ] );
+
+		$this->callbacks = [];
+		parent::__destruct();
 	}
 }
